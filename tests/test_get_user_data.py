@@ -1,7 +1,7 @@
 import httpx
 from jsonschema import validate
 from  core.contracts import RESOURCE_DATA_SCHEME, USER_DATA_SCHEME
-
+import allure
 
 BASE_URL = "https://reqres.in/" # Основной URL
 LIST_RESOURCE = "api/unknown"
@@ -17,16 +17,25 @@ EMAIL_ENDS = "@reqres.in"
 NOT_FOUND_USER = "api/users/23"
 AVATAR_ENDS = "-image.jpg"
 
-
+@allure.suite('Проверка запросов данных пользователей')
+@allure.title('Проверяем получение списка пользователей')
 def test_list_users():
-    response = httpx.get(BASE_URL + LIST_USERS)
-    assert response.status_code == 200
+    with allure.step(f'Делаем запрос по адресу: {BASE_URL + LIST_USERS}'):
+        response = httpx.get(BASE_URL + LIST_USERS)
+
+    with allure.step('Проверяем код ответа'):
+        assert response.status_code == 200
+
+
     data = response.json()['data']
 
     for item in data:
-        validate(item, USER_DATA_SCHEME)
-        assert item['email'].endswith(EMAIL_ENDS) # проверяем, что `mail заканчивается на @reqres.in
-        assert item['avatar'].endswith(str(item['id']) + AVATAR_ENDS) # проверяем, что в конце верный аватар
+        with allure.step(f'Проверяем элемент из списка'):
+            validate(item, USER_DATA_SCHEME)
+            with allure.step('Проверяем окончание Email адреса'):
+                assert item['email'].endswith(EMAIL_ENDS) # проверяем, что `mail заканчивается на @reqres.in
+            with allure.step('Проверяем наличие id в ссылке на аватарку'):
+                assert item['avatar'].endswith(str(item['id']) + AVATAR_ENDS) # проверяем, что в конце верный аватар
 
 def test_single_user():
     response = httpx.get(BASE_URL + SINGLE_USER)
