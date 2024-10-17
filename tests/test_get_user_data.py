@@ -37,13 +37,19 @@ def test_list_users():
             with allure.step('Проверяем наличие id в ссылке на аватарку'):
                 assert item['avatar'].endswith(str(item['id']) + AVATAR_ENDS) # проверяем, что в конце верный аватар
 
+@allure.suite('Проверка запроса одного пользователя')
+@allure.title('Проверяем получение одного пользователя по id')
 def test_single_user():
-    response = httpx.get(BASE_URL + SINGLE_USER)
-    assert response.status_code == 200
+    with allure.step(f'Проверяем запрос по адресу: {BASE_URL + SINGLE_USER}'):
+        response = httpx.get(BASE_URL + SINGLE_USER)
+    with allure.step('Проверяем код ответа'):
+        assert response.status_code == 200
     data = response.json()['data']
 
-    assert data['email'].endswith(EMAIL_ENDS)  # проверяем, что `mail заканчивается на @reqres.in
-    assert data['avatar'].endswith(str(data['id']) + AVATAR_ENDS)  # проверяем, что в конце верный аватар
+    with allure.step('Проверяем окончание Email адреса'):
+        assert data['email'].endswith(EMAIL_ENDS)  # проверяем, что `mail заканчивается на @reqres.in
+    with allure.step('Проверяем наличие id в ссылке на аватарку'):
+        assert data['avatar'].endswith(str(data['id']) + AVATAR_ENDS)  # проверяем, что в конце верный аватар
 
 def test_user_not_found():
     response = httpx.get(BASE_URL + NOT_FOUND_USER)
