@@ -1,6 +1,6 @@
 import httpx
 from jsonschema import validate
-from  core.contracts import RESOURCE_DATA_SCHEME, USER_DATA_SCHEME
+from core.contracts import RESOURCE_DATA_SCHEME, USER_DATA_SCHEME
 import allure
 
 BASE_URL = "https://reqres.in/" # Основной URL
@@ -21,7 +21,6 @@ def test_list_users():
         response = httpx.get(BASE_URL + LIST_USERS)
     with allure.step('Проверяем код ответа'):
         assert response.status_code == 200
-
 
     data = response.json()['data']
 
@@ -54,7 +53,7 @@ def test_user_not_found():
     with allure.step(f'Проверяем запрос по адресу: {BASE_URL + NOT_FOUND_USER}'):
         response = httpx.get(BASE_URL + NOT_FOUND_USER)
     with allure.step(f'Проверяем, что в ответ будет получен код 404'):
-        assert  response.status_code == 404
+        assert response.status_code == 404
 
 @allure.suite('Проверка запросов списка ресурсов')
 @allure.title('Проверяем получение списка ресурсов')
@@ -63,7 +62,6 @@ def test_list_resource():
         responce = httpx.get(BASE_URL + LIST_RESOURCE)
     with allure.step(f'Проверяем код ответа'):
         assert responce.status_code == 200
-
 
     data = responce.json()['data']
 
