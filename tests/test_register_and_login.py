@@ -2,7 +2,7 @@ import json
 import httpx
 import pytest
 from jsonschema import validate
-from core.contracts import REGISTERED_USER_SCHEME, LOGIN_USER_SCHEME
+from core.contracts import REGISTERED_USER_SCHEME, LOGIN_USER_SCHEME, INVALID_LOGIN_USER_SCHEME
 import allure
 
 BASE_URL = "https://reqres.in/"
@@ -36,6 +36,11 @@ def test_register_without_password(invalid_users_data):
         response = httpx.post(BASE_URL + REGISTERED_USER, json=invalid_users_data)
     with allure.step('Проверка кода ответа'):
         assert response.status_code == 400
+    # for Roman
+    # with allure.step('Проверяем элементы из списка по схеме'):
+    #     validate(response.json, INVALID_LOGIN_USER_SCHEME)
+
+
 
 @allure.suite('Проверка неуспешного входа пользователя без указания пароля')
 @allure.title('Проверяем создание пользователя без указания пароля')
@@ -45,6 +50,9 @@ def test_register_without_password(invalid_users_data):
         response = httpx.post(BASE_URL + LOGIN_USER, json=invalid_users_data)
     with allure.step('Проверка кода ответа'):
         assert response.status_code == 400
+    #for Roman
+    # with allure.step('Проверяем элементы из списка по схеме'):
+    #     validate(response.json, INVALID_LOGIN_USER_SCHEME)
 
 
 

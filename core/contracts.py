@@ -57,3 +57,10 @@ LOGIN_USER_SCHEME = {
     "required": ["token"]
 }
 
+INVALID_LOGIN_USER_SCHEME = {
+    "type": "object",
+    "properties": {
+        "error": {"type": "string"}
+    },
+    "required": ["error"]
+}
