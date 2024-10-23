@@ -38,14 +38,14 @@ def test_register_without_password(invalid_users_data):
         assert response.status_code == 400
     # for Roman
     # with allure.step('Проверяем элементы из списка по схеме'):
-    #     validate(response.json, INVALID_LOGIN_USER_SCHEME)
+    #     validate(response.json(), INVALID_LOGIN_USER_SCHEME)
 
 
 
 @allure.suite('Проверка неуспешного входа пользователя без указания пароля')
 @allure.title('Проверяем создание пользователя без указания пароля')
 @pytest.mark.parametrize('invalid_users_data', invalid_users_data)
-def test_register_without_password(invalid_users_data):
+def test_login_without_password(invalid_users_data):
     with allure.step('Отправка запроса с телом на регистрацию пользователя без пароля'):
         response = httpx.post(BASE_URL + LOGIN_USER, json=invalid_users_data)
     with allure.step('Проверка кода ответа'):
