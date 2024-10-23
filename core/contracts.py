@@ -39,3 +39,20 @@ UPDATED_USER_SCHEME = {
         "job": {"type": "string"}
     }
 }
+
+REGISTERED_USER_SCHEME = {
+    "type": "object",
+    "properties": {
+        "id": {"type": "number"},
+        "token": {"type": "string"}
+    },
+    "required": ["id", "token"]
+}
+
+LOGIN_USER_SCHEME = {
+    "type": "object",
+    "properties": {
+        "token": {"type": "string"}
+    },
+    "required": ["token"]
+}
