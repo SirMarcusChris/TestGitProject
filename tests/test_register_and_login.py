@@ -31,11 +31,3 @@ def test_successful_registered(users_data):
         assert response.status_code == 200
     with allure.step(f'Проверяем элементы из списка по схеме'):
         validate(response.json(), LOGIN_USER_SCHEME)
-
-
-
-
-
-
-
-
