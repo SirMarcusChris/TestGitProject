@@ -50,10 +50,8 @@ def test_login_without_password(invalid_users_data):
         response = httpx.post(BASE_URL + LOGIN_USER, json=invalid_users_data)
     with allure.step('Проверка кода ответа'):
         assert response.status_code == 400
-    #for Roman
-    # with allure.step('Проверяем элементы из списка по схеме'):
-    #     validate(response.json, INVALID_LOGIN_USER_SCHEME)
-
+    with allure.step('Проверяем элементы из списка по схеме'):
+        validate(response.json(), INVALID_LOGIN_USER_SCHEME)
 
 
 
