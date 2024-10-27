@@ -27,9 +27,9 @@ def test_create_user_with_name_and_job():
     with allure.step('Проверяем код ответа'):
         assert response.status_code == 201
     with allure.step('Проверка совпадения времени создания пользователя с текущим временем'):
-        assert creation_date[0:16] == current_date[0:16]#указываем количество символов, до которых берём значение
+        assert creation_date[0:16] == current_date[0:16] #указываем количество символов, до которых берём значение
     with allure.step('Проверка совпадения имени у созданного пользователя с указанным'):
-        assert response_json['name'] == body['name']#сравниваем, что полученный json совпадает с тем, что указан в body
+        assert response_json['name'] == body['name'] #сравниваем,что полученный json совпадает с тем, что указан в body
     with allure.step('Проверка совпадения работы у созданного пользователя с указанным'):
         assert response_json['job'] == body['job']
 
@@ -82,7 +82,6 @@ def test_create_user_without_job():
 @allure.suite('Проверка возможности создания пользователя методом put')
 @allure.title('Проверяем создание пользователя')
 def test_update_user_by_id_by_put():
-#предполагаю, что даже при отправке в теле одного из ключей, в ответ вернутся все ключи из схемы
     body = {
         "name": "morpheus",
         "job": "zion resident"
@@ -218,10 +217,11 @@ def test_update_user_by_id_without_name_by_patch():
     with allure.step('Проверка совпадения работы у созданного пользователя с указанным'):
         assert response_json['job'] == body['job']
 
-#удаление юзера
+
 @allure.suite('Проверка возможности удаления пользователя')
 @allure.title('Проверяем удаление пользователя')
 def test_delete_user_by_id():
+    with allure.step('Отправка запроса на удаление пользователя'):
         responce = httpx.delete(BASE_URL + UPDATE_USER_BY_ID)
-        with allure.step('Проверяем код ответа'):
-            assert responce.status_code == 204
+    with allure.step('Проверяем код ответа'):
+        assert responce.status_code == 204

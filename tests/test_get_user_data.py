@@ -13,6 +13,8 @@ SINGLE_USER = "api/users/2"
 EMAIL_ENDS = "@reqres.in"
 NOT_FOUND_USER = "api/users/23"
 AVATAR_ENDS = "-image.jpg"
+DELAYED_REQUEST = "api/users?delay=3"
+
 
 @allure.suite('Проверка запросов данных пользователей')
 @allure.title('Проверяем получение списка пользователей')
@@ -84,8 +86,15 @@ def test_single_resource():
     with allure.step(f'Проверяем что значение цвета начинается с #'):
         assert data['color'].startswith(COLOR_START)  # проверяем, что значение цвета начинается с решетки
 
+
+@allure.suite('Проверка запроса несуществующего ресурса')
+@allure.title('Проверяем получение ресурса по несуществующему id')
 def test_single_resource_not_found():
     with allure.step(f'Проверяем запрос по адресу: {BASE_URL + NOT_FOUND_RESOURCE}'):
         responce = httpx.get(BASE_URL + NOT_FOUND_RESOURCE)
     with allure.step(f'Проверяем, что в ответ будет получен код 404'):
         assert responce.status_code == 404
+
+
+def test_delay_user_list():
+    response = httpx.get(BASE_URL + DELAYED_REQUEST,timeout=4)
